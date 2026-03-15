@@ -1,3 +1,4 @@
+#Video 1 : https://www.youtube.com/watch?v=D-I4VmSM010&list=PLkXIMkNI7FNIBJTVnU3I7J29IB7vrsSgG&index=1
 # Hafta 1 Analiz ve Planlama
 
 ## Bu Hafta Ne Yapıldı
