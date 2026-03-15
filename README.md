@@ -1,3 +1,5 @@
+### Youtube kanalı : https://www.youtube.com/playlist?list=PLkXIMkNI7FNIBJTVnU3I7J29IB7vrsSgG
+
 # portfolio-tracking-application
 BLM4538 - IOS II dersi için geliştirilen Mobil Yatırım Portföy Takip Uygulaması.
 
