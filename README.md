@@ -20,7 +20,17 @@ Uygulama; varlık ekleme, alım-satım kaydı tutma, güncel fiyat çekme, topla
 10. Test, hata düzeltme, son düzenlemeler ve teslim hazırlığı
 
 ## Bugün Tamamlanan Adım
-Bugün 1. adım tamamlandı. Bu adımda proje kapsamı yazılı hale getirildi, modül sınırları tanımlandı ve uygulanabilir bir geliştirme sırası belirlendi.
+Bugün 2. adım tamamlandı. Bu adımda Expo + TypeScript tabanli React Native proje dosyalari olusturuldu ve `src` altinda temel klasor yapisi kodla birlikte kuruldu.
 
-Detaylı analiz notu için: [Raporlar/hafta-01-analiz.md](Raporlar/hafta-01-analiz.md)
+Hafta 2 kurulum notu için: [Raporlar/hafta-02-kurulum.md](Raporlar/hafta-02-kurulum.md)
+
+## Yerel Kurulum ve Calistirma
+1. Node.js LTS kur (onerilen: 20.x)
+2. Proje dizininde bagimliliklari yukle:
+	- `npm install`
+3. Gelistirme sunucusunu baslat:
+	- `npm run start`
+4. Cihazda test:
+	- `npm run android` veya `npm run ios`
+
 
