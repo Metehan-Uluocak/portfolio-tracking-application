@@ -1,29 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { colors, spacing } from '../../constants/theme';
+import { Text } from 'react-native';
+import { typography } from '../../constants/theme';
+import { AppScreen } from '../../components/common/AppScreen';
 
 export function WatchlistScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Watchlist</Text>
+    <AppScreen title="Watchlist" subtitle="Takip ettiğin varlıkların hızlı görünümü">
       <Text style={styles.subtitle}>Takip edilen varliklar burada listelenecek.</Text>
-    </View>
+    </AppScreen>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: spacing.lg,
-  },
-  title: {
-    color: colors.textPrimary,
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: spacing.sm,
-  },
+const styles = {
   subtitle: {
-    color: colors.textSecondary,
-    fontSize: 16,
+    ...typography.subtitle,
   },
-});
+};

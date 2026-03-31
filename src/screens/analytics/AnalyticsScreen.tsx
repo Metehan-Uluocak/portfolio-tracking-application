@@ -1,29 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { colors, spacing } from '../../constants/theme';
+import { Text } from 'react-native';
+import { typography } from '../../constants/theme';
+import { AppScreen } from '../../components/common/AppScreen';
 
 export function AnalyticsScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Analiz</Text>
+    <AppScreen title="Analiz" subtitle="Performans ve kar-zarar metrikleri">
       <Text style={styles.subtitle}>Kar-zarar ve performans grafigi bu ekranda yer alacak.</Text>
-    </View>
+    </AppScreen>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: spacing.lg,
-  },
-  title: {
-    color: colors.textPrimary,
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: spacing.sm,
-  },
+const styles = {
   subtitle: {
-    color: colors.textSecondary,
-    fontSize: 16,
+    ...typography.subtitle,
   },
-});
+};

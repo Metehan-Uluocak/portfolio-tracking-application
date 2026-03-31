@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { colors, spacing } from '../../constants/theme';
+import { StyleSheet, Text, View } from 'react-native';
+import { colors, spacing, typography } from '../../constants/theme';
 import { AppCard } from '../../components/cards/AppCard';
+import { AppScreen } from '../../components/common/AppScreen';
 import { PortfolioState, usePortfolioStore, usePortfolioSummary } from '../../store/portfolioStore';
 
 export function PortfolioScreen() {
@@ -14,12 +15,16 @@ export function PortfolioScreen() {
   }, [hydrate]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Portfoyum</Text>
+    <AppScreen
+      title="Portföyüm"
+      subtitle="Portföy özeti ve toplam performans"
+      scrollable
+    >
+      <View style={styles.container}>
       <AppCard
-        title="Toplam Deger"
+        title="Toplam Değer"
         value={`${summary.totalValue.toFixed(2)} TL`}
-        subtitle={isHydrated ? 'Yerel kayitlardan yuklendi' : 'Veri yukleniyor'}
+        subtitle={isHydrated ? 'Yerel kayıtlardan yüklendi' : 'Veri yükleniyor'}
       />
       <AppCard
         title="Toplam Kar/Zarar"
@@ -27,9 +32,10 @@ export function PortfolioScreen() {
         subtitle={`${summary.totalProfitPercent.toFixed(2)}%`}
       />
       <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>Portfoy varlik listesi hafta 6'da bu karta eklenecek.</Text>
+        <Text style={styles.placeholderText}>Portföy varlık listesi hafta 6'da bu karta eklenecek.</Text>
       </View>
-    </ScrollView>
+      </View>
+    </AppScreen>
   );
 }
 
@@ -37,11 +43,6 @@ const styles = StyleSheet.create({
   container: {
     gap: spacing.lg,
     padding: spacing.lg,
-  },
-  title: {
-    color: colors.textPrimary,
-    fontSize: 24,
-    fontWeight: '700',
   },
   placeholder: {
     backgroundColor: colors.surface,
@@ -51,6 +52,6 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   placeholderText: {
-    color: colors.textSecondary,
+    ...typography.caption,
   },
 });

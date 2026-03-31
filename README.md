@@ -20,15 +20,16 @@ Uygulama; varlık ekleme, alım-satım kaydı tutma, güncel fiyat çekme, topla
 10. Test, hata düzeltme, son düzenlemeler ve teslim hazırlığı
 
 ## Bugün Tamamlanan Adım
-Bugün 2. adım tamamlandı. Bu adımda Expo + TypeScript tabanli React Native proje dosyalari olusturuldu ve `src` altinda temel klasor yapisi kodla birlikte kuruldu.
+Bugün 3. adım tamamlandı. Bu adımda React Navigation stack + tab akışı, merkezi tema token yapısı (renk, spacing, tipografi) ve ortak UI bileşen temeli (`AppScreen`, `AppButton`, `AppInput`, `AppCard`) tamamlandı.
 
 Hafta 2 kurulum notu için: [Raporlar/hafta-02-kurulum.md](Raporlar/hafta-02-kurulum.md)
+Hafta 3 navigasyon/tema notu için: [Raporlar/hafta-03-ui-navigasyon.md](Raporlar/hafta-03-ui-navigasyon.md)
 
-## Yerel Kurulum ve Calistirma
-1. Node.js LTS kur (onerilen: 20.x)
-2. Proje dizininde bagimliliklari yukle:
+## Yerel Kurulum ve Çalıştırma
+1. Node.js LTS kur (önerilen: 20.x)
+2. Proje dizininde bağımlılıkları yükle:
 	- `npm install`
-3. Gelistirme sunucusunu baslat:
+3. Geliştirme sunucusunu başlat:
 	- `npm run start`
 4. Cihazda test:
 	- `npm run android` veya `npm run ios`
