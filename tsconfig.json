@@ -10,8 +10,7 @@
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strict": true,
-    "baseUrl": "."
+    "strict": true
   },
   "include": [
     "App.tsx",

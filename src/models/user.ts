@@ -7,3 +7,7 @@ export interface User {
   role: UserRole;
   createdAt: string;
 }
+
+export interface PersistedUser extends User {
+  password: string;
+}

@@ -1,18 +1,23 @@
 import React from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing } from '../constants/theme';
+import { LoginScreen } from '../screens/auth/LoginScreen';
 import { AnalyticsScreen } from '../screens/analytics/AnalyticsScreen';
 import { PortfolioScreen } from '../screens/portfolio/PortfolioScreen';
 import { TransactionsScreen } from '../screens/transactions/TransactionsScreen';
 import { WatchlistScreen } from '../screens/watchlist/WatchlistScreen';
+import { usePortfolioStore } from '../store/portfolioStore';
 import { MainTabParamList, RootStackParamList } from './types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function MainTabs() {
+  const logout = usePortfolioStore((state) => state.logout);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -52,7 +57,11 @@ function MainTabs() {
             return <Ionicons name={focused ? 'bar-chart' : 'bar-chart-outline'} size={size} color={color} />;
           }
 
-          return <Ionicons name={focused ? 'eye' : 'eye-outline'} size={size} color={color} />;
+          if (route.name === 'Watchlist') {
+            return <Ionicons name={focused ? 'eye' : 'eye-outline'} size={size} color={color} />;
+          }
+
+          return <Ionicons name={focused ? 'log-out' : 'log-out-outline'} size={size} color={color} />;
         },
       })}
     >
@@ -60,11 +69,38 @@ function MainTabs() {
       <Tab.Screen name="Transactions" component={TransactionsScreen} options={{ title: 'İşlemler' }} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} options={{ title: 'Analiz' }} />
       <Tab.Screen name="Watchlist" component={WatchlistScreen} options={{ title: 'Watchlist' }} />
+      <Tab.Screen
+        name="Logout"
+        component={WatchlistScreen}
+        options={{ title: 'Çıkış' }}
+        listeners={{
+          tabPress: (event) => {
+            event.preventDefault();
+            void logout();
+          },
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
 export function RootNavigator() {
+  const hydrate = usePortfolioStore((state) => state.hydrate);
+  const isHydrated = usePortfolioStore((state) => state.isHydrated);
+  const currentUser = usePortfolioStore((state) => state.currentUser);
+
+  React.useEffect(() => {
+    hydrate();
+  }, [hydrate]);
+
+  if (!isHydrated) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator color={colors.accent} size="large" />
+      </View>
+    );
+  }
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -74,7 +110,20 @@ export function RootNavigator() {
         contentStyle: { backgroundColor: colors.background },
       }}
     >
-      <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+      {currentUser ? (
+        <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+      ) : (
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      )}
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
+  },
+});

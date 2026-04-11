@@ -1,29 +1,22 @@
-# Hafta 3 - Navigasyon, Tema ve Ortak UI Temeli
+# Hafta 3 - Finans API Araştırması ve Entegrasyonu
 
 ## Tamamlananlar
-- React Navigation stack + bottom tab yapısı kuruldu.
-- Merkezi tema yapısı genişletildi:
-  - renk tokenları
-  - spacing tokenları
-  - radius tokenları
-  - typography tokenları
-  - navigation theme nesnesi
-- Ortak UI bileşen temeli tamamlandı:
-  - AppScreen
-  - AppButton (primary/secondary/ghost, disabled/loading)
-  - AppInput (label + error text)
-  - AppCard
-- Ekranlar ortak AppScreen kabuğuna geçirildi:
-  - Portfolio
-  - Transactions
-  - Analytics
-  - Watchlist
-  - Login
+- `priceService` rastgele değer döndüren yapıdan çıkarılıp gerçek API çağrılarına geçirildi.
+- Birincil kaynak olarak Yahoo Finance entegrasyonu eklendi.
+- Kripto varlıklar için CoinGecko fallback mekanizması eklendi.
+- Servis, sembol ve varlık tipine göre uygun ticker adaylarını deneyen yapıya geçirildi.
 
 ## Teknik Notlar
-- NavigationContainer tema ile çalışır hale getirildi.
-- Stack ve Tab screenOptions, tema tokenlarından beslenecek şekilde standartlaştırıldı.
-- Safe area ve ekran başlık/alt başlık düzeni tek bir bileşende toplandı.
+- Yahoo endpoint: `query1.finance.yahoo.com/v8/finance/chart/...`
+- Kripto fallback: `api.coingecko.com/api/v3/simple/price`
+- Dönen veri artık yalnızca `price` değil, aynı zamanda:
+  - `source`
+  - `fetchedAt`
+  bilgisini de taşır.
 
-## Sonraki Adım (Hafta 4)
-- Veri modeli, local storage ve kimlik doğrulama akışının domain seviyesinde tamamlanması.
+## Güncellenen Dosya
+- `src/services/api/priceService.ts`
+
+## Sonuç
+Hafta 3 sonunda uygulama, internetten gerçek fiyat verisi çekebilir hale geldi.
+Bu yapı, Hafta 4'te varlık ekleme sırasında anlık fiyatla portföy oluşturma akışının temelini sağladı.

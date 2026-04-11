@@ -1,18 +1,23 @@
 import React, { PropsWithChildren } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native';
 import { colors, spacing } from '../../constants/theme';
 
 type AppCardProps = PropsWithChildren<{
   title: string;
+  titleRight?: React.ReactNode;
   value?: string;
+  valueStyle?: StyleProp<TextStyle>;
   subtitle?: string;
 }>;
 
-export function AppCard({ title, value, subtitle, children }: AppCardProps) {
+export function AppCard({ title, titleRight, value, valueStyle, subtitle, children }: AppCardProps) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      {value ? <Text style={styles.value}>{value}</Text> : null}
+      <View style={styles.titleRow}>
+        <Text style={styles.title}>{title}</Text>
+        {titleRight}
+      </View>
+      {value ? <Text style={[styles.value, valueStyle]}>{value}</Text> : null}
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       {children}
     </View>
@@ -31,6 +36,11 @@ const styles = StyleSheet.create({
   title: {
     color: colors.textSecondary,
     fontSize: 14,
+  },
+  titleRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   value: {
     color: colors.textPrimary,
