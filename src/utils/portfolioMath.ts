@@ -1,4 +1,20 @@
-import { Asset } from '../models/asset';
+import { Asset, CurrencyCode } from '../models/asset';
+
+function convertCurrency(amount: number, from: CurrencyCode, to: CurrencyCode, usdTryRate: number): number {
+  if (from === to) {
+    return amount;
+  }
+
+  if (from === 'USD' && to === 'TRY') {
+    return amount * usdTryRate;
+  }
+
+  return amount / usdTryRate;
+}
+
+function getAssetCurrency(asset: Asset): CurrencyCode {
+  return asset.quoteCurrency ?? 'TRY';
+}
 
 export function calculateAssetValue(asset: Asset): number {
   return asset.quantity * asset.currentPrice;
@@ -19,5 +35,25 @@ export function calculatePortfolioTotals(assets: Asset[]) {
     totalCost,
     totalProfit,
     totalProfitPercent,
+  };
+}
+
+export function calculatePortfolioTotalsInCurrency(assets: Asset[], targetCurrency: CurrencyCode, usdTryRate: number) {
+  const convertedAssets = assets.map((asset) => {
+    const sourceCurrency = getAssetCurrency(asset);
+
+    return {
+      ...asset,
+      currentPrice: convertCurrency(asset.currentPrice, sourceCurrency, targetCurrency, usdTryRate),
+      averageBuyPrice: convertCurrency(asset.averageBuyPrice, sourceCurrency, targetCurrency, usdTryRate),
+    };
+  });
+
+  const totals = calculatePortfolioTotals(convertedAssets);
+
+  return {
+    ...totals,
+    currency: targetCurrency,
+    usdTryRate,
   };
 }

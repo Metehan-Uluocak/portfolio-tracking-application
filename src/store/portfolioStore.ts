@@ -3,6 +3,7 @@ import { Asset, CurrencyCode } from '../models/asset';
 import { Transaction } from '../models/transaction';
 import { PersistedUser, User } from '../models/user';
 import { fetchUsdTryRate } from '../services/api/priceService';
+import { calculatePortfolioTotalsInCurrency } from '../utils/portfolioMath';
 import {
   clearSessionUserId,
   loadAssetsFromStorage,
@@ -39,22 +40,6 @@ export type PortfolioState = {
   replaceAssets: (assets: Asset[]) => Promise<void>;
 };
 
-function convertCurrency(amount: number, from: CurrencyCode, to: CurrencyCode, usdTryRate: number): number {
-  if (from === to) {
-    return amount;
-  }
-
-  if (from === 'USD' && to === 'TRY') {
-    return amount * usdTryRate;
-  }
-
-  return amount / usdTryRate;
-}
-
-function normalizeAssetCurrency(asset: Asset): CurrencyCode {
-  return asset.quoteCurrency ?? 'TRY';
-}
-
 function toPublicUser(user: PersistedUser): User {
   return {
     id: user.id,
@@ -86,7 +71,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
       : null;
     const normalizedAssets = localAssets.map((asset) => ({
       ...asset,
-      quoteCurrency: normalizeAssetCurrency(asset),
+      quoteCurrency: asset.quoteCurrency ?? 'TRY',
     }));
 
     set({
@@ -235,39 +220,5 @@ export function usePortfolioSummary() {
   const displayCurrency = usePortfolioStore((state) => state.displayCurrency);
   const usdTryRate = usePortfolioStore((state) => state.usdTryRate);
 
-  const totalValue = assets.reduce(
-    (sum, asset) =>
-      sum +
-      convertCurrency(
-        asset.quantity * asset.currentPrice,
-        normalizeAssetCurrency(asset),
-        displayCurrency,
-        usdTryRate,
-      ),
-    0,
-  );
-
-  const totalCost = assets.reduce(
-    (sum, asset) =>
-      sum +
-      convertCurrency(
-        asset.quantity * asset.averageBuyPrice,
-        normalizeAssetCurrency(asset),
-        displayCurrency,
-        usdTryRate,
-      ),
-    0,
-  );
-
-  const totalProfit = totalValue - totalCost;
-  const totalProfitPercent = totalCost > 0 ? (totalProfit / totalCost) * 100 : 0;
-
-  return {
-    totalValue,
-    totalCost,
-    totalProfit,
-    totalProfitPercent,
-    currency: displayCurrency,
-    usdTryRate,
-  };
+  return calculatePortfolioTotalsInCurrency(assets, displayCurrency, usdTryRate);
 }
