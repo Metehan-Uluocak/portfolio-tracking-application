@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing } from '../constants/theme';
 import { LoginScreen } from '../screens/auth/LoginScreen';
 import { AnalyticsScreen } from '../screens/analytics/AnalyticsScreen';
+import { AdminScreen } from '../screens/admin/AdminScreen';
 import { PortfolioScreen } from '../screens/portfolio/PortfolioScreen';
 import { TransactionsScreen } from '../screens/transactions/TransactionsScreen';
 import { WatchlistScreen } from '../screens/watchlist/WatchlistScreen';
@@ -17,6 +18,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function MainTabs() {
   const logout = usePortfolioStore((state) => state.logout);
+  const currentUser = usePortfolioStore((state) => state.currentUser);
 
   return (
     <Tab.Navigator
@@ -61,6 +63,10 @@ function MainTabs() {
             return <Ionicons name={focused ? 'eye' : 'eye-outline'} size={size} color={color} />;
           }
 
+          if (route.name === 'Admin') {
+            return <Ionicons name={focused ? 'shield-checkmark' : 'shield-checkmark-outline'} size={size} color={color} />;
+          }
+
           return <Ionicons name={focused ? 'log-out' : 'log-out-outline'} size={size} color={color} />;
         },
       })}
@@ -69,6 +75,9 @@ function MainTabs() {
       <Tab.Screen name="Transactions" component={TransactionsScreen} options={{ title: 'İşlemler' }} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} options={{ title: 'Analiz' }} />
       <Tab.Screen name="Watchlist" component={WatchlistScreen} options={{ title: 'Watchlist' }} />
+      {currentUser?.role === 'admin' ? (
+        <Tab.Screen name="Admin" component={AdminScreen} options={{ title: 'Yönetim' }} />
+      ) : null}
       <Tab.Screen
         name="Logout"
         component={WatchlistScreen}

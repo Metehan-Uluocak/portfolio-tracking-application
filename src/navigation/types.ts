@@ -3,6 +3,7 @@ export type MainTabParamList = {
   Transactions: undefined;
   Analytics: undefined;
   Watchlist: undefined;
+  Admin: undefined;
   Logout: undefined;
 };
 
