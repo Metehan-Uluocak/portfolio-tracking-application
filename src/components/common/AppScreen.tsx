@@ -3,6 +3,8 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, spacing, typography } from '../../constants/theme';
 
+const APP_VERSION = 'v1.0';
+
 type AppScreenProps = PropsWithChildren<{
   title: string;
   subtitle?: string;
@@ -17,6 +19,7 @@ export function AppScreen({ title, subtitle, scrollable = false, children }: App
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
       {children}
+      <Text style={styles.versionLabel}>Demo build {APP_VERSION}</Text>
     </View>
   );
 
@@ -37,6 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollContent: {
+    flexGrow: 1,
     paddingBottom: spacing.xl,
   },
   content: {
@@ -53,5 +57,12 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typography.subtitle,
+  },
+  versionLabel: {
+    ...typography.caption,
+    marginTop: 'auto',
+    textAlign: 'center',
+    opacity: 0.7,
+    paddingTop: spacing.lg,
   },
 });
